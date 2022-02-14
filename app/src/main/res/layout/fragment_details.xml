@@ -54,12 +54,12 @@
         <eo.view.batterymeter.BatteryMeterView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            app:batteryMeterChargeLevel="@{scooter.battery}"
             android:id="@+id/battery_meter"
             app:layout_constraintStart_toEndOf="@id/txt_battery"
+            batteryPercentage="@{scooter.battery}"
             app:layout_constraintTop_toTopOf="@+id/txt_battery"
             app:layout_constraintBottom_toBottomOf="@id/txt_battery"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="4dp"
             app:batteryMeterChargingColor="#4caf50"
             app:batteryMeterColor="#0277bd"
             app:batteryMeterCriticalChargeLevel="15"
@@ -68,6 +68,18 @@
             app:batteryMeterIsCharging="false"
             app:batteryMeterTheme="rounded"
             app:batteryMeterUnknownColor="#e0e0e0" />
+
+        <TextView
+            android:id="@+id/txt_battery_string"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            batteryLevelText="@{scooter.battery}"
+            app:layout_constraintStart_toEndOf="@+id/battery_meter"
+            tools:text="30%"
+            app:layout_constraintTop_toTopOf="@id/battery_meter"
+            app:layout_constraintBottom_toBottomOf="@id/battery_meter"
+            />
 
         <TextView
             android:id="@+id/txt_address"
@@ -80,24 +92,10 @@
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/img_scooter"
             app:layout_constraintEnd_toEndOf="parent"
+            android:text= "@{String.format(@string/state_s, scooter.state)}"
             app:layout_constraintTop_toBottomOf="@id/txt_battery"
-            android:text="@string/state_s"
             tools:text="State: Damaged" />
 
-        <TextView
-            android:id="@+id/txt_fleetBirdId"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/img_scooter"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_battery"
-            android:text="@{@string/state_s(scooter.state)}"
-            tools:text="State: Damaged" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

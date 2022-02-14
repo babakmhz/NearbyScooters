@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.babakmhz.nearbyscooters.R
 import com.babakmhz.nearbyscooters.appUtil.LOCATION_PERMISSION_REQUEST_CODE
 import com.babakmhz.nearbyscooters.appUtil.LocationUiState
@@ -34,7 +35,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     private lateinit var googleMap: GoogleMap
     private lateinit var binding: FragmentMapsBinding
 
-    private var scooters :HashMap<Scooter,Marker>? = hashMapOf()
+    private var scooters: HashMap<Scooter, Marker>? = hashMapOf()
 
     private val cancellationToken: CancellationToken by lazy {
         CancellationTokenSource().token
@@ -50,6 +51,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     @RequiresApi(Build.VERSION_CODES.M)
     private val callback = OnMapReadyCallback { googleMap ->
         this.googleMap = googleMap
+        setOnMarkerClickListener()
 
     }
 
@@ -61,7 +63,6 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
         mapFragment?.getMapAsync(callback)
         viewModel.locationLiveData.observe(viewLifecycleOwner, locationLiveDataObserver)
         viewModel.scooterLiveData.observe(viewLifecycleOwner, scootersObserver)
-
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -107,15 +108,30 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     }
 
     private val scootersObserver = Observer<MainUiState<List<Scooter>>> {
-       when(it){
-           is MainUiState.Error -> {}
-           MainUiState.Loading -> {}
-           is MainUiState.Success -> {
-               it.data.forEach { scooter->
-                   addMarker(scooter,R.drawable.electric_scooter)
-               }
-           }
-       }
+        when (it) {
+            is MainUiState.Error -> {
+            }
+            MainUiState.Loading -> {
+            }
+            is MainUiState.Success -> {
+                it.data.forEach { scooter ->
+                    addMarker(scooter, R.drawable.electric_scooter)
+                }
+            }
+        }
+    }
+
+    fun setOnMarkerClickListener() {
+        googleMap.setOnMarkerClickListener { marker ->
+            if (marker != userMarker) {
+                val scooter = scooters?.filterValues { it == marker }!!.keys.first()
+                val action = MapsFragmentDirections.actionMapsFragmentToDetailsFragment(
+                    scooter
+                )
+                findNavController().navigate(action)
+            }
+            true
+        }
     }
 
     private fun addMarker(scooter: Scooter, icon: Int?, title: String = "") {

@@ -26,6 +26,7 @@ class DetailsFragment : BaseBottomSheetFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDetailsBinding.inflate(inflater)
+        binding.scooter = args.scooter
         binding.executePendingBindings()
         return binding.root
     }
