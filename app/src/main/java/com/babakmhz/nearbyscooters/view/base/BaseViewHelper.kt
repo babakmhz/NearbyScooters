@@ -32,7 +32,7 @@ interface BaseViewHelper {
         )
     }
 
-    fun buildAlertMessageNoGps(activity: Activity) {
+    fun showLocationProviderDisabledAlert(activity: Activity) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
         builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
             .setCancelable(false)
