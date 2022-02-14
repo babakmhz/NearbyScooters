@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Nearby Scooters</string>
+    <string name="app_name">nearby scooters</string>
+    <string name="you_are_here">You are here!</string>
+    <string name="error_user_location">Error getting current location! reason: %s</string>
+    <string name="allow_permission_for_using_the_app">You must allow the permission in order to use the app!</string>
+
 </resources>

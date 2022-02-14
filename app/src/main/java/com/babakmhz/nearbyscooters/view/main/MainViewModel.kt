@@ -58,7 +58,7 @@ class MainViewModel @Inject constructor(
     private fun onLocationFailed(exception: Exception) =
         _locationLiveData.postValue(LocationUiState.Error(exception))
 
-    private fun getLastLocation() {
+    fun getLastLocation() {
         locationHelper.requestLastLocation(
             onPermissionFailed = this::onLocationPermissionFailed,
             onProviderDisabled = this::onLocationProviderDisabled,

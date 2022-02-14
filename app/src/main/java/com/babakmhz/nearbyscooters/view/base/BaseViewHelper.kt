@@ -8,6 +8,8 @@ import android.provider.Settings
 import android.view.View
 import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.babakmhz.nearbyscooters.appUtil.LOCATION_PERMISSION_REQUEST_CODE
@@ -22,9 +24,17 @@ interface BaseViewHelper {
         return ViewModelProvider(activity)[viewModel]
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    fun requestLocationPermission(activity: BaseActivity) {
-        activity.requestPermissions(
+    fun requestLocationPermission(activity: Activity) {
+        ActivityCompat.requestPermissions(activity,
+            arrayOf(
+                android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ), LOCATION_PERMISSION_REQUEST_CODE
+        )
+    }
+
+    fun requestLocationPermission(fragment: Fragment) {
+        fragment.requestPermissions(
             arrayOf(
                 android.Manifest.permission.ACCESS_COARSE_LOCATION,
                 android.Manifest.permission.ACCESS_FINE_LOCATION
