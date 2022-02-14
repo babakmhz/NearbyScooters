@@ -1,4 +1,4 @@
-package com.babakmhz.nearbyscooters.utils
+package com.babakmhz.nearbyscooters.appUtil
 
 import android.app.Application
 import com.babakmhz.nearbyscooters.BuildConfig

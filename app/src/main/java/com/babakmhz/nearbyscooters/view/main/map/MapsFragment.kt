@@ -7,7 +7,9 @@ import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
 import com.babakmhz.nearbyscooters.R
 import com.babakmhz.nearbyscooters.databinding.FragmentMapsBinding
+import com.babakmhz.nearbyscooters.view.base.BaseActivity
 import com.babakmhz.nearbyscooters.view.base.BaseFragment
+import com.babakmhz.nearbyscooters.view.main.MainViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -18,6 +20,10 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
 
     private lateinit var googleMap: GoogleMap
     private lateinit var binding: FragmentMapsBinding
+
+    private val viewModel by lazy {
+        getSharedViewModel(requireActivity() as BaseActivity,MainViewModel::class.java)
+    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private val callback = OnMapReadyCallback { googleMap ->
@@ -31,6 +37,8 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
+
+        viewModel
 
     }
 

@@ -1,5 +1,5 @@
 package com.babakmhz.nearbyscooters.data.network.model
 
-data class Scooters(
+data class ScootersNetworkResponse(
     val `data`: Data
 )

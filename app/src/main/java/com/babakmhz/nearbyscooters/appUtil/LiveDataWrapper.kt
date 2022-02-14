@@ -1,4 +1,4 @@
-package com.babakmhz.nearbyscooters.utils
+package com.babakmhz.nearbyscooters.appUtil
 
 sealed class MainUiState<out T : Any>{
     object Loading : MainUiState<Nothing>()

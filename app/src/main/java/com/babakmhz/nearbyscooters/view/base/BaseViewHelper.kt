@@ -10,16 +10,16 @@ import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.babakmhz.nearbyscooters.utils.LOCATION_PERMISSION_REQUEST_CODE
-import com.babakmhz.nearbyscooters.utils.toGone
-import com.babakmhz.nearbyscooters.utils.toVisible
+import com.babakmhz.nearbyscooters.appUtil.LOCATION_PERMISSION_REQUEST_CODE
+import com.babakmhz.nearbyscooters.appUtil.toGone
+import com.babakmhz.nearbyscooters.appUtil.toVisible
 import com.google.android.material.snackbar.Snackbar
 
 interface BaseViewHelper {
 
 
     fun <T : ViewModel> getSharedViewModel(activity: BaseActivity, viewModel: Class<T>): T {
-        return ViewModelProvider(activity).get(viewModel)
+        return ViewModelProvider(activity)[viewModel]
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

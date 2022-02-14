@@ -1,4 +1,4 @@
-package com.babakmhz.nearbyscooters.utils
+package com.babakmhz.nearbyscooters.appUtil
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
@@ -34,10 +34,6 @@ fun <T : Any> CoroutineScope.launchWithException(
     return launch(CoroutineExceptionHandler { _, throwable ->
         livedata.postValue(MainUiState.Error(throwable))
     }, block = block)
-}
-
-fun LatLng.toRequestParam(): String {
-    return "${this.latitude},${this.longitude}"
 }
 
 
