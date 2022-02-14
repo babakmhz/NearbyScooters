@@ -1,7 +1,8 @@
-package com.babakmhz.nearbyscooters
+package com.babakmhz.nearbyscooters.view.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.babakmhz.nearbyscooters.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
