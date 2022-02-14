@@ -1,6 +1,5 @@
 package com.babakmhz.nearbyscooters.view.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.babakmhz.nearbyscooters.R
 import com.babakmhz.nearbyscooters.view.base.BaseActivity
