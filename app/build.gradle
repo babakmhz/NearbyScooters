@@ -18,7 +18,7 @@ android {
         versionCode 1
         multiDexEnabled true
         versionName "1.0"
-        buildConfigField('String','BASE_URL',"\"https://api.foursquare.com/v3/\"")
+        buildConfigField('String','BASE_URL',"\"https://api.jsonbin.io/b/\"")
         buildConfigField('String','SECRET_KEY',"\"\$2b\$10\$VE0tRqquld4OBl7LDeo9v.afsyRXFlXcQzmj1KpEB6K1wG2okzQcK\"")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

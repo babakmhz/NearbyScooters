@@ -17,7 +17,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseViewHelper {
         return null
     }
 
-    abstract fun initializeUi()
+    open fun initializeUi(){}
 
 
 }
