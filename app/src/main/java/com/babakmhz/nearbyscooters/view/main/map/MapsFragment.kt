@@ -34,7 +34,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     private lateinit var googleMap: GoogleMap
     private lateinit var binding: FragmentMapsBinding
 
-    private val scooters = hashMapOf<Scooter, Marker>()
+    private var scooters :HashMap<Scooter,Marker>? = hashMapOf()
 
     private val cancellationToken: CancellationToken by lazy {
         CancellationTokenSource().token
@@ -101,6 +101,11 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
         }
     }
 
+    override fun onDestroy() {
+        this.scooters = null
+        super.onDestroy()
+    }
+
     private val scootersObserver = Observer<MainUiState<List<Scooter>>> {
        when(it){
            is MainUiState.Error -> {}
@@ -121,9 +126,9 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
             }
 
         }
-        if (!scooters.containsKey(scooter)) {
+        if (!scooters!!.containsKey(scooter)) {
             val marker = googleMap.addMarker(markerOptions)
-            scooters[scooter] = marker!!
+            scooters!![scooter] = marker!!
         }
 
     }

@@ -1,6 +1,7 @@
 package com.babakmhz.nearbyscooters.data.domain.model
 
 import com.google.android.gms.maps.model.LatLng
+import java.io.Serializable
 
 data class Scooter(
     val battery: Int,
@@ -16,7 +17,7 @@ data class Scooter(
     val state: String,
     val vehicleId: String,
     val zoneId: String
-) {
+):Serializable {
     val latLng: LatLng get() = LatLng(latitude, longitude)
 
     override fun equals(other: Any?): Boolean {

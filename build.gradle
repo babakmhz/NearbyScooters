@@ -48,6 +48,9 @@ buildscript {
         // hilt lifecycle
         hiltLifecycle_version = '1.0.0-beta01'
 
+        // battery meter
+        batteryMeter_version = '2.0.0'
+
         //material
         material_version = '1.4.0'
 

@@ -9,5 +9,18 @@
         android:id="@+id/mapsFragment"
         android:name="com.babakmhz.nearbyscooters.view.main.map.MapsFragment"
         android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" />
+        tools:layout="@layout/fragment_maps" >
+        <action
+            android:id="@+id/action_mapsFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/detailsFragment"
+        android:name="com.babakmhz.nearbyscooters.view.details.DetailsFragment"
+        tools:layout="@layout/fragment_details"
+        android:label="DetailsFragment" >
+        <argument
+            android:name="scooter"
+            app:argType="com.babakmhz.nearbyscooters.data.domain.model.Scooter" />
+    </dialog>
 </navigation>
