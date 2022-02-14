@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import com.babakmhz.nearbyscooters.R
 import com.babakmhz.nearbyscooters.appUtil.LOCATION_PERMISSION_REQUEST_CODE
 import com.babakmhz.nearbyscooters.appUtil.LocationUiState
+import com.babakmhz.nearbyscooters.appUtil.MainUiState
+import com.babakmhz.nearbyscooters.data.domain.model.Scooter
 import com.babakmhz.nearbyscooters.databinding.FragmentMapsBinding
 import com.babakmhz.nearbyscooters.view.base.BaseActivity
 import com.babakmhz.nearbyscooters.view.base.BaseFragment
@@ -18,6 +20,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -30,6 +33,8 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
 
     private lateinit var googleMap: GoogleMap
     private lateinit var binding: FragmentMapsBinding
+
+    private val scooters = hashMapOf<Scooter, Marker>()
 
     private val cancellationToken: CancellationToken by lazy {
         CancellationTokenSource().token
@@ -55,6 +60,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
         viewModel.locationLiveData.observe(viewLifecycleOwner, locationLiveDataObserver)
+        viewModel.scooterLiveData.observe(viewLifecycleOwner, scootersObserver)
 
     }
 
@@ -86,14 +92,42 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
             is LocationUiState.OnPermissionFailed -> {
                 requestLocationPermission(this)
             }
-            is LocationUiState.OnProviderDisabled -> showLocationProviderDisabledAlert(
-                requireActivity()
-            )
+            is LocationUiState.OnProviderDisabled ->
+                showLocationProviderDisabledAlert(requireActivity())
+
             is LocationUiState.Success -> {
                 putUserMarker(it.data)
             }
         }
     }
+
+    private val scootersObserver = Observer<MainUiState<List<Scooter>>> {
+       when(it){
+           is MainUiState.Error -> {}
+           MainUiState.Loading -> {}
+           is MainUiState.Success -> {
+               it.data.forEach { scooter->
+                   addMarker(scooter,R.drawable.electric_scooter)
+               }
+           }
+       }
+    }
+
+    private fun addMarker(scooter: Scooter, icon: Int?, title: String = "") {
+        val markerOptions = MarkerOptions().position(scooter.latLng).apply {
+            title(title)
+            icon?.let {
+                icon(BitmapDescriptorFactory.fromResource(icon))
+            }
+
+        }
+        if (!scooters.containsKey(scooter)) {
+            val marker = googleMap.addMarker(markerOptions)
+            scooters[scooter] = marker!!
+        }
+
+    }
+
 
     private fun putUserMarker(latLng: LatLng) {
         userMarker?.remove()
