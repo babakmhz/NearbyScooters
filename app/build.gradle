@@ -1,7 +1,12 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+    id 'androidx.navigation.safeargs.kotlin'
 }
+
 
 android {
     compileSdk 31
@@ -9,10 +14,12 @@ android {
     defaultConfig {
         applicationId "com.babakmhz.nearbyscooters"
         minSdk 21
-        targetSdk 31
+        targetSdk 30
         versionCode 1
+        multiDexEnabled true
         versionName "1.0"
-
+        buildConfigField('String','BASE_URL',"\"https://api.foursquare.com/v3/\"")
+        buildConfigField('String','FSQUARE_API_KEY',"\"fsq3kVlSugj23idP7n+N/mucd4HmYTZExtQz6pXmgGhyowE=\"")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -29,6 +36,11 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
 }
 
 dependencies {
@@ -36,8 +48,92 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+
+    //Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //glide
+    implementation "com.github.bumptech.glide:glide:$rootProject.glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.glide_version"
+
+    //material
+    implementation "com.google.android.material:material:$material_version"
+
+
+    //Network
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$http_logging"
+
+
+    //location service
+    implementation "com.google.android.gms:play-services-location:$locationService_version"
+
+    //play services
+    implementation "com.google.android.gms:play-services-vision:$playService_version"
+
+    //Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$couroutines_version"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$coroutines_adapter"
+
+    //LeakCanary
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanary"
+
+
+    // logger
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+
+    // debug database
+    debugImplementation "com.amitshekhar.android:debug-db:$debugDBVersion"
+
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModel_ktx_version"
+
+    //hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    //circle imageView
+    implementation "de.hdodenhof:circleimageview:$circleImageView_version"
+
+
+    // core testing
+    androidTestImplementation "android.arch.core:core-testing:$android_arch_core_testing"
+    testImplementation "android.arch.core:core-testing:$android_arch_core_testing"
+
+    //junit
+    androidTestImplementation "androidx.test.ext:junit:$junit_x_ext"
+    androidTestImplementation "androidx.test:rules:$testx_rules"
+
+    // espresso
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_contrib"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    debugImplementation "androidx.fragment:fragment-testing:1.3.6"
+
+    //hilt
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+    testImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    //junit
+    androidTestImplementation "androidx.test.ext:junit:$junit_x_ext"
+    androidTestImplementation("androidx.test:runner:$junit_x_ext")
+    androidTestImplementation("androidx.test:rules:$junit_x_ext")
+
+    // coroutines
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$couroutines_version"
+
+    //mockk
+    testImplementation "io.mockk:mockk:$mockk_version"
+    androidTestImplementation "io.mockk:mockk-android:$mockk_version"
+
+
+
 }
