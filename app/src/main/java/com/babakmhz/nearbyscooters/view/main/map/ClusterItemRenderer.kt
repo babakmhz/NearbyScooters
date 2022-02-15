@@ -18,10 +18,12 @@ class ClusterItemRenderer(
 
     override fun onBeforeClusterItemRendered(item: Scooter, markerOptions: MarkerOptions) {
         super.onBeforeClusterItemRendered(item, markerOptions)
-        if (nearestScooter!=null && item == nearestScooter){
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.electric_scooter_nearest))
-        }else
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.electric_scooter))
+        if (nearestActiveScooter != null && item == nearestActiveScooter) {
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.electric_scooter_near))
+        } else if (item.state == Scooter.ScooterState.ACTIVE.name)
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.electric_scooter_regular))
+        else
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.electric_scooter_bw))
     }
 
 
@@ -29,9 +31,10 @@ class ClusterItemRenderer(
         super.onBeforeClusterRendered(cluster, markerOptions)
     }
 
-    val nearestScooter: Scooter?
+    val nearestActiveScooter: Scooter?
         get() {
             val data = clusterManager.algorithm.items
-            return data.asSequence().filter { it.state == Scooter.ScooterState.ACTIVE.name }.minByOrNull { it.distanceToUserLocation }
+            return data.asSequence().filter { it.state == Scooter.ScooterState.ACTIVE.name }
+                .minByOrNull { it.distanceToUserLocation }
         }
 }
