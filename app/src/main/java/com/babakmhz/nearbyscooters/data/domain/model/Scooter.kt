@@ -45,6 +45,8 @@ data class Scooter(
 
     override fun getSnippet(): String = this.itemDescription
 
-
+    enum class ScooterState{
+        ACTIVE,LOST,MAINTENANCE,LOW_BATTERY
+    }
 
 }
