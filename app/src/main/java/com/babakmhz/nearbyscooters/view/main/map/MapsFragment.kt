@@ -40,6 +40,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     private lateinit var googleMap: GoogleMap
     private lateinit var binding: FragmentMapsBinding
     private lateinit var clusterManager: ClusterManager<Scooter>
+    private lateinit var clusterItemRenderer: ClusterItemRenderer
 
 
     private var scooters: HashMap<Scooter, Marker>? = hashMapOf()
@@ -170,6 +171,8 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
         clusterManager = ClusterManager(context, map)
         map.setOnCameraIdleListener(clusterManager)
         map.setOnMarkerClickListener(clusterManager)
+        clusterItemRenderer = ClusterItemRenderer(requireContext(),map,clusterManager)
+        clusterManager.renderer = clusterItemRenderer
     }
 
     private fun addMarkers(items:List<Scooter>){
