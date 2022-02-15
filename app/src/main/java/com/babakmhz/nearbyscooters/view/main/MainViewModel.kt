@@ -43,13 +43,13 @@ class MainViewModel @Inject constructor(
     private fun onLocationSuccess(latLng: LatLng) {
         _locationLiveData.postValue(LocationUiState.Success(latLng))
         // here we can pass the latLng to fetch scooters respect to user's location
-        fetchScooters()
+        fetchScooters(latLng)
     }
 
-    private fun fetchScooters() {
+    private fun fetchScooters(userLatLng: LatLng) {
         viewModelScope.launchWithException(_scootersLiveData) {
             _scootersLiveData.postValue(MainUiState.Loading)
-            val result = repositoryHelper.fetchScootersFromRemoteSource()
+            val result = repositoryHelper.fetchScootersFromRemoteSource(userLatLng,locationHelper)
             _scootersLiveData.postValue(MainUiState.Success(result))
         }
     }

@@ -3,6 +3,8 @@ package com.babakmhz.nearbyscooters.data.mapper
 import com.babakmhz.nearbyscooters.data.domain.model.Scooter
 import com.babakmhz.nearbyscooters.data.network.model.Current
 import com.babakmhz.nearbyscooters.data.network.model.ScootersNetworkResponse
+import com.babakmhz.nearbyscooters.location.LocationHelper
+import com.google.android.gms.maps.model.LatLng
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,19 +39,28 @@ class ScooterNetworkToDomainMapper @Inject constructor() : DomainMapper<Current,
             domainModel.latitude,
             domainModel.longitude,
             domainModel.model,
-            domainModel.resolution?:"",
-            domainModel.resolvedAt?:"",
-            domainModel.resolvedBy?:"",
+            domainModel.resolution ?: "",
+            domainModel.resolvedAt ?: "",
+            domainModel.resolvedBy ?: "",
             domainModel.state,
             domainModel.vehicleId,
             domainModel.zoneId
         )
     }
 
-    fun mapNetworkModelToScooterList(networkResponse:ScootersNetworkResponse):List<Scooter>{
+    fun mapNetworkModelToScooterList(
+        networkResponse: ScootersNetworkResponse,
+        userLatLng: LatLng,
+        locationHelper: LocationHelper
+    ): List<Scooter> {
         val current = networkResponse.data.current
-        return current.map {
+        return current.asSequence().map {
             mapToDomainModel(it)
-        }
+        }.map {
+            it.apply {
+                distanceToUserLocation =
+                    locationHelper.getDistanceBetween2Points(userLatLng, latLng)
+            }
+        }.toList()
     }
 }
