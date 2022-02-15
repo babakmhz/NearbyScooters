@@ -2,16 +2,16 @@ package com.babakmhz.nearbyscooters.view.base
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.provider.Settings
 import android.view.View
 import android.widget.ProgressBar
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.babakmhz.nearbyscooters.R
 import com.babakmhz.nearbyscooters.appUtil.LOCATION_PERMISSION_REQUEST_CODE
 import com.babakmhz.nearbyscooters.appUtil.toGone
 import com.babakmhz.nearbyscooters.appUtil.toVisible
@@ -25,7 +25,8 @@ interface BaseViewHelper {
     }
 
     fun requestLocationPermission(activity: Activity) {
-        ActivityCompat.requestPermissions(activity,
+        ActivityCompat.requestPermissions(
+            activity,
             arrayOf(
                 android.Manifest.permission.ACCESS_COARSE_LOCATION,
                 android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -63,8 +64,12 @@ interface BaseViewHelper {
     }
 
 
-    fun showErrorSnackBar(view: View) {
-        Snackbar.make(view, "Error occurred!", Snackbar.LENGTH_LONG).setAction("OK") {
+    fun showErrorSnackBar(context: Context, view: View, throwable: Throwable) {
+        Snackbar.make(
+            view,
+            context.getString(R.string.error_user_location, throwable.toString()),
+            Snackbar.LENGTH_LONG
+        ).setAction("OK") {
         }.show()
     }
 

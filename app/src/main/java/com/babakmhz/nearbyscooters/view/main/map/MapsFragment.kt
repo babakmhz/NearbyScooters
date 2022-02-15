@@ -58,7 +58,6 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     @RequiresApi(Build.VERSION_CODES.M)
     private val callback = OnMapReadyCallback { googleMap ->
         this.googleMap = googleMap
-        setOnMarkerClickListener()
 
     }
 
@@ -88,22 +87,28 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     }
 
 
+
     @RequiresApi(Build.VERSION_CODES.M)
     private val locationLiveDataObserver = Observer<LocationUiState<LatLng>> {
         when (it) {
             is LocationUiState.Loading -> {
-                // TODO: 2/14/22
+                showLoading()
             }
             is LocationUiState.Error -> {
-                showSnackBar(requireView(), getString(R.string.error_user_location, it.error))
+                hideLoading()
+                it.error?.let { it1 -> showErrorSnackBar(requireContext(),requireView(), it1) }
             }
             is LocationUiState.OnPermissionFailed -> {
+                hideLoading()
                 requestLocationPermission(this)
             }
-            is LocationUiState.OnProviderDisabled ->
+            is LocationUiState.OnProviderDisabled ->{
+                hideLoading()
                 showLocationProviderDisabledAlert(requireActivity())
+            }
 
             is LocationUiState.Success -> {
+                hideLoading()
                 putUserMarker(it.data)
             }
         }
@@ -117,41 +122,17 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     private val scootersObserver = Observer<MainUiState<List<Scooter>>> {
         when (it) {
             is MainUiState.Error -> {
+                hideLoading()
+                it.error?.let { it1 -> showErrorSnackBar(requireContext(),requireView(), it1) }
             }
             MainUiState.Loading -> {
+                showLoading()
             }
             is MainUiState.Success -> {
-//                it.data.forEach { scooter ->
-//                    addMarker(scooter, R.drawable.electric_scooter)
-//                }
+                hideLoading()
                 setUpClusterer(this.googleMap,it.data)
             }
         }
-    }
-
-    @SuppressLint("PotentialBehaviorOverride")
-    private fun setOnMarkerClickListener() {
-        googleMap.setOnMarkerClickListener { marker ->
-            if (marker != userMarker) {
-                val scooter = scooters?.filterValues { it == marker }!!.keys.first()
-            }
-            true
-        }
-    }
-
-    private fun addMarker(scooter: Scooter, icon: Int?, title: String = "") {
-        val markerOptions = MarkerOptions().position(scooter.latLng).apply {
-            title(title)
-            icon?.let {
-                icon(BitmapDescriptorFactory.fromResource(icon))
-            }
-
-        }
-        if (!scooters!!.containsKey(scooter)) {
-            val marker = googleMap.addMarker(markerOptions)
-            scooters!![scooter] = marker!!
-        }
-
     }
 
 
@@ -173,10 +154,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
         }
     }
 
-    override fun getProgressBar(): ProgressBar? {
-        TODO("Not yet implemented")
-
-    }
+    override fun getProgressBar(): ProgressBar = binding.progress
 
     private fun moveCameraToPosition(latLng: LatLng) {
         googleMap.animateCamera(
