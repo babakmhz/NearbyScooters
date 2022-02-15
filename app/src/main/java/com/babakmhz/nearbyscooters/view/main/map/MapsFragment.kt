@@ -179,12 +179,20 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
         clusterManager.clearItems()
         clusterManager.addItems(items)
         clusterManager.setOnClusterItemClickListener {
-            val action = MapsFragmentDirections.actionMapsFragmentToDetailsFragment(
-                it
-            )
-            findNavController().navigate(action)
+            navigateToDetailsFragment(it)
             true
         }
+
+        clusterItemRenderer.nearestScooter?.let {
+           navigateToDetailsFragment(it)
+        }
+    }
+
+    private fun navigateToDetailsFragment(scooter: Scooter){
+        val action = MapsFragmentDirections.actionMapsFragmentToDetailsFragment(
+           scooter
+        )
+        findNavController().navigate(action)
     }
 
     private fun showLocationPermissionMessage() =

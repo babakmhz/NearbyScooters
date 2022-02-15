@@ -13,17 +13,25 @@ import com.google.maps.android.clustering.view.DefaultClusterRenderer
 class ClusterItemRenderer(
     context: Context,
     googleMap: GoogleMap,
-    clusterManager: ClusterManager<Scooter>
+    private val clusterManager: ClusterManager<Scooter>
 ) : DefaultClusterRenderer<Scooter>(context, googleMap, clusterManager) {
 
     override fun onBeforeClusterItemRendered(item: Scooter, markerOptions: MarkerOptions) {
         super.onBeforeClusterItemRendered(item, markerOptions)
-        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.electric_scooter))
-        markerOptions.title(item.title)
+        if (nearestScooter!=null && item == nearestScooter){
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.electric_scooter_nearest))
+        }else
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.electric_scooter))
     }
+
 
     override fun onBeforeClusterRendered(cluster: Cluster<Scooter>, markerOptions: MarkerOptions) {
         super.onBeforeClusterRendered(cluster, markerOptions)
     }
 
+    val nearestScooter: Scooter?
+        get() {
+            val data = clusterManager.algorithm.items
+            return data.minByOrNull { it.distanceToUserLocation }
+        }
 }
