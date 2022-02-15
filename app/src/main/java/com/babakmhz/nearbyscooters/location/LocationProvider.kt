@@ -40,6 +40,7 @@ class LocationProvider @Inject constructor(@ApplicationContext private val conte
         )
             return
 
+        onLoading.invoke()
         locationClient.lastLocation.addOnSuccessListener {
             if (it == null)
                 onFailure.invoke(Exception("Last location is null"))
