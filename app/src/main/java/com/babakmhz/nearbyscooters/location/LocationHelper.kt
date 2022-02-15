@@ -27,5 +27,7 @@ interface LocationHelper {
 
     fun hasLocationPermission(): Boolean
 
+    fun getDistanceBetween2Points(firstLatLng: LatLng, secondLatLng: LatLng): Int
+
 
 }

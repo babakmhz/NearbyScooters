@@ -1,6 +1,7 @@
 package com.babakmhz.nearbyscooters.data.domain.model
 
 import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.clustering.ClusterItem
 import java.io.Serializable
 
 data class Scooter(
@@ -16,9 +17,13 @@ data class Scooter(
     val resolvedBy: String?,
     val state: String,
     val vehicleId: String,
-    val zoneId: String
-):Serializable {
+    val zoneId: String,
+) : Serializable, ClusterItem {
+
     val latLng: LatLng get() = LatLng(latitude, longitude)
+    var itemTitle: String = ""
+    var itemDescription: String = ""
+    var distanceToUserLocation = 0
 
     override fun equals(other: Any?): Boolean {
         if (other == null) return false
@@ -35,4 +40,10 @@ data class Scooter(
     override fun hashCode(): Int {
         return latLng.hashCode()
     }
+
+    override fun getPosition(): LatLng = latLng
+
+    override fun getTitle(): String = this.itemTitle
+
+    override fun getSnippet(): String = this.itemDescription
 }

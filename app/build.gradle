@@ -74,7 +74,8 @@ dependencies {
     //battery meter
     implementation "eo.view:batterymeter:$batteryMeter_version"
 
-
+    // map utils
+    implementation "com.google.maps.android:android-maps-utils:$mapUtils_version"
 
     //location service
     implementation "com.google.android.gms:play-services-location:$locationService_version"

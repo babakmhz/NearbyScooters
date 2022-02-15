@@ -1,4 +1,4 @@
-package com.babakmhz.nearbyscooters.data.util
+package com.babakmhz.nearbyscooters.data.mapper
 
 import com.babakmhz.nearbyscooters.data.domain.model.Scooter
 import com.babakmhz.nearbyscooters.data.network.model.Current

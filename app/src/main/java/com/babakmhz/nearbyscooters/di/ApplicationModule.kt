@@ -5,7 +5,6 @@ import com.babakmhz.nearbyscooters.data.RepositoryHelper
 import com.babakmhz.nearbyscooters.data.RepositoryImpl
 import com.babakmhz.nearbyscooters.data.network.ApiService
 import com.babakmhz.nearbyscooters.data.network.auth.AuthenticationInterceptor
-import com.babakmhz.nearbyscooters.data.util.ScooterNetworkToDomainMapper
 import com.babakmhz.nearbyscooters.location.LocationHelper
 import com.babakmhz.nearbyscooters.location.LocationProvider
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory

@@ -1,5 +1,6 @@
 package com.babakmhz.nearbyscooters.view.main.map
 
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -28,12 +29,18 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import dagger.hilt.android.AndroidEntryPoint
+import com.google.maps.android.clustering.ClusterManager
+
+
+
 
 @AndroidEntryPoint
 class MapsFragment : BaseFragment(R.layout.fragment_maps) {
 
     private lateinit var googleMap: GoogleMap
     private lateinit var binding: FragmentMapsBinding
+    private lateinit var clusterManager: ClusterManager<Scooter>
+
 
     private var scooters: HashMap<Scooter, Marker>? = hashMapOf()
 
@@ -114,21 +121,19 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
             MainUiState.Loading -> {
             }
             is MainUiState.Success -> {
-                it.data.forEach { scooter ->
-                    addMarker(scooter, R.drawable.electric_scooter)
-                }
+//                it.data.forEach { scooter ->
+//                    addMarker(scooter, R.drawable.electric_scooter)
+//                }
+                setUpClusterer(this.googleMap,it.data)
             }
         }
     }
 
-    fun setOnMarkerClickListener() {
+    @SuppressLint("PotentialBehaviorOverride")
+    private fun setOnMarkerClickListener() {
         googleMap.setOnMarkerClickListener { marker ->
             if (marker != userMarker) {
                 val scooter = scooters?.filterValues { it == marker }!!.keys.first()
-                val action = MapsFragmentDirections.actionMapsFragmentToDetailsFragment(
-                    scooter
-                )
-                findNavController().navigate(action)
             }
             true
         }
@@ -179,6 +184,21 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
             600,
             null
         )
+    }
+
+    @SuppressLint("PotentialBehaviorOverride")
+    private fun setUpClusterer(map:GoogleMap, items:List<Scooter>) {
+        clusterManager = ClusterManager(context, map)
+        map.setOnCameraIdleListener(clusterManager)
+        map.setOnMarkerClickListener(clusterManager)
+        clusterManager.addItems(items)
+        clusterManager.setOnClusterItemClickListener {
+            val action = MapsFragmentDirections.actionMapsFragmentToDetailsFragment(
+               it
+            )
+            findNavController().navigate(action)
+            true
+        }
     }
 
     private fun showLocationPermissionMessage() =

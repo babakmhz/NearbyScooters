@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Location
 import android.location.LocationManager
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -114,5 +115,15 @@ class LocationProvider @Inject constructor(@ApplicationContext private val conte
         }
 
         return true
+    }
+
+    override fun getDistanceBetween2Points(firstLatLng: LatLng, secondLatLng: LatLng): Int {
+        val distance = FloatArray(1)
+        Location.distanceBetween(
+            firstLatLng.latitude, firstLatLng.longitude,
+            secondLatLng.latitude, secondLatLng.longitude,
+            distance
+        )
+        return distance[0].toInt()
     }
 }

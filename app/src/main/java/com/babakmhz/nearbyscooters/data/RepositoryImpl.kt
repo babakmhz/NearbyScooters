@@ -2,7 +2,7 @@ package com.babakmhz.nearbyscooters.data
 
 import com.babakmhz.nearbyscooters.data.domain.model.Scooter
 import com.babakmhz.nearbyscooters.data.network.ApiService
-import com.babakmhz.nearbyscooters.data.util.ScooterNetworkToDomainMapper
+import com.babakmhz.nearbyscooters.data.mapper.ScooterNetworkToDomainMapper
 import javax.inject.Inject
 import javax.inject.Singleton
 

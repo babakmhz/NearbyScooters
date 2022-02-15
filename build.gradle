@@ -47,7 +47,8 @@ buildscript {
         hilt_version = '2.38.1'
         // hilt lifecycle
         hiltLifecycle_version = '1.0.0-beta01'
-
+        // map utils
+        mapUtils_version = '2.2.3'
         // battery meter
         batteryMeter_version = '2.0.0'
 

@@ -1,4 +1,4 @@
-package com.babakmhz.nearbyscooters.data.util
+package com.babakmhz.nearbyscooters.data.mapper
 
 interface DomainMapper <T, DomainModel>{
 
