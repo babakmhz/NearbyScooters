@@ -40,8 +40,6 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     private lateinit var clusterItemRenderer: ClusterItemRenderer
 
 
-    private var scooters: HashMap<Scooter, Marker>? = hashMapOf()
-
     private val cancellationToken: CancellationToken by lazy {
         CancellationTokenSource().token
     }
@@ -113,7 +111,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     }
 
     override fun onDestroy() {
-        this.scooters = null
+        this.userMarker = null
         super.onDestroy()
     }
 
@@ -154,10 +152,10 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
 
     override fun getProgressBar(): ProgressBar = binding.progress
 
-    private fun moveCameraToPosition(latLng: LatLng) {
+    private fun moveCameraToPosition(latLng: LatLng, zoom: Float = 12F, durationMs: Int = 800) {
         googleMap.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(latLng, 12F),
-            600,
+            CameraUpdateFactory.newLatLngZoom(latLng, zoom),
+            durationMs,
             null
         )
     }
@@ -174,14 +172,19 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     private fun addMarkers(items: List<Scooter>) {
         clusterManager.clearItems()
         clusterManager.addItems(items)
+        clusterManager.cluster()
         clusterManager.setOnClusterItemClickListener {
             navigateToDetailsFragment(it, it == clusterItemRenderer.nearestActiveScooter)
             true
         }
 
+        //checking if any active near scooter found, them moving the camera to position
         clusterItemRenderer.nearestActiveScooter?.let {
+            moveCameraToPosition(it.latLng,durationMs = 100)
             navigateToDetailsFragment(it, it == clusterItemRenderer.nearestActiveScooter)
         }
+
+
     }
 
     private fun navigateToDetailsFragment(scooter: Scooter, nearest: Boolean = false) {
