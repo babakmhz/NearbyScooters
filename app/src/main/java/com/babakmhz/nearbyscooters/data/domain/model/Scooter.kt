@@ -29,16 +29,14 @@ data class Scooter(
         if (other == null) return false
         if (other !is Scooter) return false
 
-        val otherLatLng = other.latLng
-
-        if (latLng == otherLatLng)
+        if (id == other.id)
             return true
 
         return false
     }
 
     override fun hashCode(): Int {
-        return latLng.hashCode()
+        return id.hashCode()
     }
 
     override fun getPosition(): LatLng = latLng
