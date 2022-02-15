@@ -27,10 +27,8 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
-import dagger.hilt.android.AndroidEntryPoint
 import com.google.maps.android.clustering.ClusterManager
-
-
+import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
@@ -88,7 +86,6 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     }
 
 
-
     @RequiresApi(Build.VERSION_CODES.M)
     private val locationLiveDataObserver = Observer<LocationUiState<LatLng>> {
         when (it) {
@@ -97,13 +94,13 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
             }
             is LocationUiState.Error -> {
                 hideLoading()
-                it.error?.let { it1 -> showErrorSnackBar(requireContext(),requireView(), it1) }
+                it.error?.let { it1 -> showErrorSnackBar(requireContext(), requireView(), it1) }
             }
             is LocationUiState.OnPermissionFailed -> {
                 hideLoading()
                 requestLocationPermission(this)
             }
-            is LocationUiState.OnProviderDisabled ->{
+            is LocationUiState.OnProviderDisabled -> {
                 hideLoading()
                 showLocationProviderDisabledAlert(requireActivity())
             }
@@ -124,7 +121,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
         when (it) {
             is MainUiState.Error -> {
                 hideLoading()
-                it.error?.let { it1 -> showErrorSnackBar(requireContext(),requireView(), it1) }
+                it.error?.let { it1 -> showErrorSnackBar(requireContext(), requireView(), it1) }
             }
             MainUiState.Loading -> {
                 showLoading()
@@ -166,30 +163,30 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     }
 
     @SuppressLint("PotentialBehaviorOverride")
-    private fun setUpClusterer(map:GoogleMap) {
+    private fun setUpClusterer(map: GoogleMap) {
         clusterManager = ClusterManager(context, map)
         map.setOnCameraIdleListener(clusterManager)
         map.setOnMarkerClickListener(clusterManager)
-        clusterItemRenderer = ClusterItemRenderer(requireContext(),map,clusterManager)
+        clusterItemRenderer = ClusterItemRenderer(requireContext(), map, clusterManager)
         clusterManager.renderer = clusterItemRenderer
     }
 
-    private fun addMarkers(items:List<Scooter>){
+    private fun addMarkers(items: List<Scooter>) {
         clusterManager.clearItems()
         clusterManager.addItems(items)
         clusterManager.setOnClusterItemClickListener {
-            navigateToDetailsFragment(it)
+            navigateToDetailsFragment(it, it == clusterItemRenderer.nearestActiveScooter)
             true
         }
 
         clusterItemRenderer.nearestActiveScooter?.let {
-           navigateToDetailsFragment(it,true)
+            navigateToDetailsFragment(it, it == clusterItemRenderer.nearestActiveScooter)
         }
     }
 
-    private fun navigateToDetailsFragment(scooter: Scooter,nearest:Boolean = false){
+    private fun navigateToDetailsFragment(scooter: Scooter, nearest: Boolean = false) {
         val action = MapsFragmentDirections.actionMapsFragmentToDetailsFragment(
-           scooter,nearest
+            scooter, nearest
         )
         findNavController().navigate(action)
     }
