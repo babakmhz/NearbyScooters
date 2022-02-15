@@ -58,6 +58,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     @RequiresApi(Build.VERSION_CODES.M)
     private val callback = OnMapReadyCallback { googleMap ->
         this.googleMap = googleMap
+        setUpClusterer(googleMap)
 
     }
 
@@ -130,7 +131,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
             }
             is MainUiState.Success -> {
                 hideLoading()
-                setUpClusterer(this.googleMap,it.data)
+                addMarkers(it.data)
             }
         }
     }
@@ -165,14 +166,17 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     }
 
     @SuppressLint("PotentialBehaviorOverride")
-    private fun setUpClusterer(map:GoogleMap, items:List<Scooter>) {
+    private fun setUpClusterer(map:GoogleMap) {
         clusterManager = ClusterManager(context, map)
         map.setOnCameraIdleListener(clusterManager)
         map.setOnMarkerClickListener(clusterManager)
+    }
+
+    private fun addMarkers(items:List<Scooter>){
         clusterManager.addItems(items)
         clusterManager.setOnClusterItemClickListener {
             val action = MapsFragmentDirections.actionMapsFragmentToDetailsFragment(
-               it
+                it
             )
             findNavController().navigate(action)
             true
