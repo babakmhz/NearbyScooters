@@ -44,4 +44,7 @@ data class Scooter(
     override fun getTitle(): String = this.itemTitle
 
     override fun getSnippet(): String = this.itemDescription
+
+
+
 }

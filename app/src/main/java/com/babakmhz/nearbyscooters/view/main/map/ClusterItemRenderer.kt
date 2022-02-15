@@ -32,6 +32,6 @@ class ClusterItemRenderer(
     val nearestScooter: Scooter?
         get() {
             val data = clusterManager.algorithm.items
-            return data.minByOrNull { it.distanceToUserLocation }
+            return data.asSequence().filter { it.state == "ACTIVE" }.minByOrNull { it.distanceToUserLocation }
         }
 }

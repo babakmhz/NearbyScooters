@@ -4,5 +4,7 @@
     <string name="error_user_location">Error getting current location! reason: %s</string>
     <string name="allow_permission_for_using_the_app">You must allow the permission in order to use the app!</string>
     <string name="state_s">State: %s</string>
+    <string name="distance_s">Distance: %s</string>
+    <string name="battery_level">Battery Level</string>
 
 </resources>
