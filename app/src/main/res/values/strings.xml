@@ -6,5 +6,6 @@
     <string name="state_s">State: %s</string>
     <string name="distance_s">Distance: %s</string>
     <string name="battery_level">Battery Level</string>
+    <string name="nearest_to_you">Nearest To You!</string>
 
 </resources>

@@ -2,6 +2,8 @@
 <layout>
 
     <data>
+        <import type="android.view.View"/>
+
         <variable
             name="scooter"
             type="com.babakmhz.nearbyscooters.data.domain.model.Scooter" />
@@ -28,16 +30,36 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/img_scooter"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/electric_scooter_64"
+        <LinearLayout
+            android:id="@+id/image_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="@id/battery_meter"
             app:layout_constraintBottom_toBottomOf="@+id/txt_distance"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/img_header" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/txt_nearest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nearest_to_you"
+                android:background="@drawable/shape_outlined_blue_16r"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="@{nearest ? View.GONE : View.VISIBLE}"
+                tools:visibility="visible"
+                app:layout_constraintStart_toStartOf="@+id/img_scooter"
+                app:layout_constraintTop_toBottomOf="@id/img_header" />
+
+            <ImageView
+                android:id="@+id/img_scooter"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/electric_scooter_64" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/txt_battery"
@@ -46,23 +68,19 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
+            android:text="@string/battery_level"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/img_scooter"
-            android:text="@string/battery_level"
-            tools:text="Battery Level"
+            app:layout_constraintStart_toEndOf="@+id/image_container"
             app:layout_constraintTop_toBottomOf="@id/img_header"
-            />
+            tools:text="Battery Level" />
 
         <eo.view.batterymeter.BatteryMeterView
+            android:id="@+id/battery_meter"
+            batteryPercentage="@{scooter.battery}"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:id="@+id/battery_meter"
-            app:layout_constraintStart_toEndOf="@id/txt_battery"
-            batteryPercentage="@{scooter.battery}"
-            app:layout_constraintTop_toTopOf="@+id/txt_battery"
-            app:layout_constraintBottom_toBottomOf="@id/txt_battery"
             android:layout_marginStart="4dp"
             app:batteryMeterChargingColor="#4caf50"
             app:batteryMeterColor="#0277bd"
@@ -71,19 +89,21 @@
             app:batteryMeterIndicatorColor="@android:color/transparent"
             app:batteryMeterIsCharging="false"
             app:batteryMeterTheme="rounded"
-            app:batteryMeterUnknownColor="#e0e0e0" />
+            app:batteryMeterUnknownColor="#e0e0e0"
+            app:layout_constraintBottom_toBottomOf="@id/txt_battery"
+            app:layout_constraintStart_toEndOf="@id/txt_battery"
+            app:layout_constraintTop_toTopOf="@+id/txt_battery" />
 
         <TextView
             android:id="@+id/txt_battery_string"
+            batteryLevelText="@{scooter.battery}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            batteryLevelText="@{scooter.battery}"
-            app:layout_constraintStart_toEndOf="@+id/battery_meter"
-            tools:text="30%"
-            app:layout_constraintTop_toTopOf="@id/battery_meter"
             app:layout_constraintBottom_toBottomOf="@id/battery_meter"
-            />
+            app:layout_constraintStart_toEndOf="@+id/battery_meter"
+            app:layout_constraintTop_toTopOf="@id/battery_meter"
+            tools:text="30%" />
 
         <TextView
             android:id="@+id/txt_state"
@@ -91,18 +111,19 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
+            android:text="@{String.format(@string/state_s, scooter.state)}"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/img_scooter"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text= "@{String.format(@string/state_s, scooter.state)}"
+            app:layout_constraintStart_toEndOf="@id/image_container"
             app:layout_constraintTop_toBottomOf="@id/txt_battery"
             tools:text="State: Damaged" />
 
 
         <TextView
             android:id="@+id/txt_distance"
+            bindDistance="@{scooter.distanceToUserLocation}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -110,10 +131,9 @@
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/img_scooter"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image_container"
             app:layout_constraintTop_toBottomOf="@id/txt_state"
-            bindDistance="@{scooter.distanceToUserLocation}"
             tools:text="Distance: 10M" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
