@@ -173,6 +173,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     }
 
     private fun addMarkers(items:List<Scooter>){
+        clusterManager.clearItems()
         clusterManager.addItems(items)
         clusterManager.setOnClusterItemClickListener {
             val action = MapsFragmentDirections.actionMapsFragmentToDetailsFragment(
