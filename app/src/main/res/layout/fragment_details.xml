@@ -49,7 +49,7 @@
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:visibility="@{nearest ? View.GONE : View.VISIBLE}"
+                android:visibility="@{nearest ? View.VISIBLE : View.GONE}"
                 tools:visibility="visible"
                 app:layout_constraintStart_toStartOf="@+id/img_scooter"
                 app:layout_constraintTop_toBottomOf="@id/img_header" />

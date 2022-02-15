@@ -22,5 +22,9 @@
         <argument
             android:name="scooter"
             app:argType="com.babakmhz.nearbyscooters.data.domain.model.Scooter" />
+        <argument
+            android:name="nearest"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </dialog>
 </navigation>

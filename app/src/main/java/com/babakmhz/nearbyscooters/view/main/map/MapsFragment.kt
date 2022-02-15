@@ -183,13 +183,13 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
         }
 
         clusterItemRenderer.nearestActiveScooter?.let {
-           navigateToDetailsFragment(it)
+           navigateToDetailsFragment(it,true)
         }
     }
 
-    private fun navigateToDetailsFragment(scooter: Scooter){
+    private fun navigateToDetailsFragment(scooter: Scooter,nearest:Boolean = false){
         val action = MapsFragmentDirections.actionMapsFragmentToDetailsFragment(
-           scooter
+           scooter,nearest
         )
         findNavController().navigate(action)
     }

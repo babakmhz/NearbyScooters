@@ -27,6 +27,7 @@ class DetailsFragment : BaseBottomSheetFragment() {
     ): View {
         binding = FragmentDetailsBinding.inflate(inflater)
         binding.scooter = args.scooter
+        binding.nearest = args.nearest
         binding.executePendingBindings()
         return binding.root
     }
