@@ -1,6 +1,5 @@
 package com.babakmhz.nearbyscooters.view.details
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import com.babakmhz.nearbyscooters.R
 import com.babakmhz.nearbyscooters.databinding.FragmentDetailsBinding
 import com.babakmhz.nearbyscooters.view.base.BaseBottomSheetFragment
+
 
 class DetailsFragment : BaseBottomSheetFragment() {
 
