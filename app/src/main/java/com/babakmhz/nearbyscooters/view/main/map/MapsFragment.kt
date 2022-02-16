@@ -71,6 +71,8 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
         // in this case, there's bottomSheet showing scooter details, in case of
         // configuration changes, we would pop the backstack and set the current location
         // of navigation to mapsFragment
+        // we can also use viewModel to save state of bottomSheet whether it's visible
+        // or any data it's showing
         if (savedInstanceState != null && !isNavGraphStartingPoint(findNavController()))
             findNavController().popBackStack()
 
