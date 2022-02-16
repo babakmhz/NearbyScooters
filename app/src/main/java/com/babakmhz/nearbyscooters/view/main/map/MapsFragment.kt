@@ -25,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.CancellationToken
@@ -56,7 +57,13 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
 
     @RequiresApi(Build.VERSION_CODES.M)
     private val callback = OnMapReadyCallback { googleMap ->
-        this.googleMap = googleMap
+        this.googleMap = googleMap.apply {
+            setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    requireContext(), R.raw.nopoistyle
+                )
+            )
+        }
         setUpClusterer(googleMap)
         viewModel.locationLiveData.observe(viewLifecycleOwner, locationLiveDataObserver)
         viewModel.scooterLiveData.observe(viewLifecycleOwner, scootersObserver)
