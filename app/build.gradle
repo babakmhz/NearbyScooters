@@ -18,8 +18,8 @@ android {
         versionCode 1
         multiDexEnabled true
         versionName "1.0"
-        buildConfigField('String','BASE_URL',"\"https://api.jsonbin.io/b/\"")
-        buildConfigField('String','SECRET_KEY',"\"\$2b\$10\$VE0tRqquld4OBl7LDeo9v.afsyRXFlXcQzmj1KpEB6K1wG2okzQcK\"")
+        buildConfigField('String', 'BASE_URL', "\"https://api.jsonbin.io/b/\"")
+        buildConfigField('String', 'SECRET_KEY', "\"\$2b\$10\$VE0tRqquld4OBl7LDeo9v.afsyRXFlXcQzmj1KpEB6K1wG2okzQcK\"")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -35,6 +35,12 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    // avoiding crash in "ServiceLoaderWrapper" class while ui testing
+    configurations.all {
+        resolutionStrategy {
+            force 'androidx.test:monitor:1.4.0'
+        }
     }
 
     buildFeatures {
@@ -139,6 +145,9 @@ dependencies {
     //mockk
     testImplementation "io.mockk:mockk:$mockk_version"
     androidTestImplementation "io.mockk:mockk-android:$mockk_version"
+
+    //navigation testing
+    androidTestImplementation("androidx.navigation:navigation-testing:$navigationVersion")
 
 
 
