@@ -207,10 +207,6 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
 
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        Timber.i("configuration changed... $newConfig")
-    }
 
     private fun navigateToDetailsFragment(scooter: Scooter, nearest: Boolean = false) {
         val action = MapsFragmentDirections.actionMapsFragmentToDetailsFragment(
