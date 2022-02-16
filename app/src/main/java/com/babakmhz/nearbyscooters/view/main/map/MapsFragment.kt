@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.maps.android.clustering.ClusterManager
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -55,7 +56,8 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     private val callback = OnMapReadyCallback { googleMap ->
         this.googleMap = googleMap
         setUpClusterer(googleMap)
-
+        viewModel.locationLiveData.observe(viewLifecycleOwner, locationLiveDataObserver)
+        viewModel.scooterLiveData.observe(viewLifecycleOwner, scootersObserver)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -64,8 +66,6 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
-        viewModel.locationLiveData.observe(viewLifecycleOwner, locationLiveDataObserver)
-        viewModel.scooterLiveData.observe(viewLifecycleOwner, scootersObserver)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -180,7 +180,7 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
 
         //checking if any active near scooter found, them moving the camera to position
         clusterItemRenderer.nearestActiveScooter?.let {
-            moveCameraToPosition(it.latLng,durationMs = 100)
+            moveCameraToPosition(it.latLng, durationMs = 100)
             navigateToDetailsFragment(it, it == clusterItemRenderer.nearestActiveScooter)
         }
 
