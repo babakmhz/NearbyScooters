@@ -1,5 +1,6 @@
 package com.babakmhz.nearbyscooters.view.details
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ class DetailsFragment : BaseBottomSheetFragment() {
     override fun getTheme(): Int {
         return R.style.BaseBottomSheetDialog
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

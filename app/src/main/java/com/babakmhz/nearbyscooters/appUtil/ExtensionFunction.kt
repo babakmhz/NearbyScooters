@@ -1,8 +1,9 @@
 package com.babakmhz.nearbyscooters.appUtil
 
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.maps.model.LatLng
+import androidx.navigation.NavController
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -26,6 +27,8 @@ fun View?.toInvisible() {
 
 fun String?.validString() = this != null && this.isNotEmpty()
 
+fun Fragment.isNavGraphStartingPoint(navController: NavController) =
+    navController.graph.startDestinationId == navController.currentDestination?.id ?: -1
 
 fun <T : Any> CoroutineScope.launchWithException(
     livedata: MutableLiveData<MainUiState<T>>,

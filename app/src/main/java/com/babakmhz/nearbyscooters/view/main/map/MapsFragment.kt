@@ -2,6 +2,7 @@ package com.babakmhz.nearbyscooters.view.main.map
 
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -13,6 +14,7 @@ import com.babakmhz.nearbyscooters.R
 import com.babakmhz.nearbyscooters.appUtil.LOCATION_PERMISSION_REQUEST_CODE
 import com.babakmhz.nearbyscooters.appUtil.LocationUiState
 import com.babakmhz.nearbyscooters.appUtil.MainUiState
+import com.babakmhz.nearbyscooters.appUtil.isNavGraphStartingPoint
 import com.babakmhz.nearbyscooters.data.domain.model.Scooter
 import com.babakmhz.nearbyscooters.databinding.FragmentMapsBinding
 import com.babakmhz.nearbyscooters.view.base.BaseActivity
@@ -64,6 +66,15 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentMapsBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
+
+        // popping backstack for avoiding wrong navigation current node
+        // in this case, there's bottomSheet showing scooter details, in case of
+        // configuration changes, we would pop the backstack and set the current location
+        // of navigation to mapsFragment
+        if (savedInstanceState != null && !isNavGraphStartingPoint(findNavController()))
+            findNavController().popBackStack()
+
+
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
     }
@@ -185,6 +196,11 @@ class MapsFragment : BaseFragment(R.layout.fragment_maps) {
         }
 
 
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        Timber.i("configuration changed... $newConfig")
     }
 
     private fun navigateToDetailsFragment(scooter: Scooter, nearest: Boolean = false) {
