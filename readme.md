@@ -2,9 +2,9 @@
 ##### The project that collects the scooters data in germeny with a mock api and display them in a proper way on the map
 
 ## Screenshots
-<img src="screenshots/1.png" width="320" height="320">
-<img src="screenshots/2.png" width="320" height="320">
-<img src="screenshots/3.png" width="320" height="320">
+![Alt text](screenshots/1.png?raw=true)
+![Alt text](screenshots/1.png?raw=true)
+![Alt text](screenshots/1.png?raw=true)
 
 ## Architecture
 - MVVM
@@ -27,7 +27,7 @@
 - `LocationHelper.kt`: An interface with location related methods
 - `LocationProvider.kt`: Implementation for LocationHelper.kt
 - `RepositoryHelper.kt`: Interface to manage behavior of RepositoryImpl class
-- `ReposotoryImpl.kt`: Implementation of RepositoryHelper interface which is responsible for feeding viewModel with data
+- `RepositoryImpl.kt`: Implementation of RepositoryHelper interface which is responsible for feeding viewModel with data
     * `override suspend fun fetchScootersFromRemoteSource(
         userLatLng: LatLng,
         locationHelper: LocationHelper
