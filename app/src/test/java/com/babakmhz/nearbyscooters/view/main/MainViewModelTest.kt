@@ -60,7 +60,6 @@ class MainViewModelTest {
             //mocking response from fetchScooters Method
             coEvery {
                 repoHelper.fetchScootersFromRemoteSource(
-                    ofType(),
                     ofType()
                 )
             } coAnswers {
@@ -111,7 +110,7 @@ class MainViewModelTest {
                 this.arg<(LatLng) -> Unit>(3).invoke(LatLng(0.0, 0.0))
             }
 
-            coEvery { repoHelper.fetchScootersFromRemoteSource(ofType(), ofType()) } coAnswers {
+            coEvery { repoHelper.fetchScootersFromRemoteSource(ofType()) } coAnswers {
                 delay(networkDelay)
                 response
             }
