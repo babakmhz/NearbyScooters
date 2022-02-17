@@ -2,9 +2,9 @@
 ##### The project that collects the scooters data in germeny with a mock api and display them in a proper way on the map
 
 ## Screenshots
-![Alt text](screenshots/1.png?raw=true)
-![Alt text](screenshots/1.png?raw=true)
-![Alt text](screenshots/1.png?raw=true)
+<img src="screenshots/1.png" width="320" height="320">
+<img src="screenshots/2.png" width="320" height="320">
+<img src="screenshots/3.png" width="320" height="320">
 
 ## Architecture
 - MVVM
@@ -20,7 +20,7 @@
 
 #### Packages
 - di: Dependency injection module of the applicaiton
-- data: Representers Models, Network, Repository classes/interfaces
+- data: Represents Models, Network, Repository classes/interfaces
 - utils: Utils, helper methods of the application
 - view: View layer of MVVM architecure
 #### Key Classes And Functions
