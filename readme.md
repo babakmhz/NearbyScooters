@@ -1,5 +1,5 @@
 # Nearby Scooters
-##### The project that collects the scooters data in germany with a mock api and display them in a proper way on the map
+##### The project that collects the scooters data in germany with a mock api, find the nearest possible scooter and display them in a proper way on the map
 
 ## Screenshots
 ![Alt text](screenshots/1.png?raw=true)
