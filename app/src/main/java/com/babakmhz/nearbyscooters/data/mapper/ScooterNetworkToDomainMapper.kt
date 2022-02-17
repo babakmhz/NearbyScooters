@@ -4,12 +4,13 @@ import com.babakmhz.nearbyscooters.data.domain.model.Scooter
 import com.babakmhz.nearbyscooters.data.network.model.Current
 import com.babakmhz.nearbyscooters.data.network.model.ScootersNetworkResponse
 import com.babakmhz.nearbyscooters.location.LocationHelper
+import com.babakmhz.nearbyscooters.location.LocationUtils
 import com.google.android.gms.maps.model.LatLng
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ScooterNetworkToDomainMapper @Inject constructor(private val locationHelper: LocationHelper) :
+class ScooterNetworkToDomainMapper @Inject constructor() :
     DomainMapper<Current, Scooter> {
 
 
@@ -59,7 +60,7 @@ class ScooterNetworkToDomainMapper @Inject constructor(private val locationHelpe
         }.map {
             it.apply {
                 distanceToUserLocation =
-                    locationHelper.getDistanceBetween2Points(userLatLng, latLng)
+                    LocationUtils.getDistanceBetween2Points(userLatLng, latLng)
             }
         }.toList()
     }
