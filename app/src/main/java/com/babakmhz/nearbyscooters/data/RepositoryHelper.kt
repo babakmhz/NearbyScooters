@@ -9,7 +9,6 @@ interface RepositoryHelper {
 
 
     suspend fun fetchScootersFromRemoteSource(
-        userLatLng: LatLng,
-        locationHelper: LocationHelper
+        userLatLng: LatLng
     ): List<Scooter>
 }

@@ -49,7 +49,7 @@ class MainViewModel @Inject constructor(
     private fun fetchScooters(userLatLng: LatLng) {
         viewModelScope.launchWithException(_scootersLiveData) {
             _scootersLiveData.postValue(MainUiState.Loading)
-            val result = repositoryHelper.fetchScootersFromRemoteSource(userLatLng,locationHelper)
+            val result = repositoryHelper.fetchScootersFromRemoteSource(userLatLng)
             _scootersLiveData.postValue(MainUiState.Success(result))
         }
     }

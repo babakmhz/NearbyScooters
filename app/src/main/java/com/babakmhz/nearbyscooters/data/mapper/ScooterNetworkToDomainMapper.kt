@@ -9,7 +9,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ScooterNetworkToDomainMapper @Inject constructor() : DomainMapper<Current, Scooter> {
+class ScooterNetworkToDomainMapper @Inject constructor(private val locationHelper: LocationHelper) :
+    DomainMapper<Current, Scooter> {
 
 
     override fun mapToDomainModel(model: Current): Scooter {
@@ -50,8 +51,7 @@ class ScooterNetworkToDomainMapper @Inject constructor() : DomainMapper<Current,
 
     fun mapNetworkModelToScooterList(
         networkResponse: ScootersNetworkResponse,
-        userLatLng: LatLng,
-        locationHelper: LocationHelper
+        userLatLng: LatLng
     ): List<Scooter> {
         val current = networkResponse.data.current
         return current.asSequence().map {

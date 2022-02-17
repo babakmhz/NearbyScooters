@@ -16,11 +16,10 @@ class RepositoryImpl @Inject constructor(
 ) : RepositoryHelper {
 
     override suspend fun fetchScootersFromRemoteSource(
-        userLatLng: LatLng,
-        locationHelper: LocationHelper
+        userLatLng: LatLng
     ): List<Scooter> {
         return scooterMapper.mapNetworkModelToScooterList(
-            apiService.getScooters(), userLatLng, locationHelper
+            apiService.getScooters(), userLatLng
         )
     }
 
