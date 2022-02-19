@@ -23,8 +23,8 @@ object CustomBindingAdapter{
     @BindingAdapter("bindDistance")
     @JvmStatic
     fun bindDistanceToTextView(view:TextView,value:Int){
-        val suffix = if (value>=1000) "Km" else "M"
         val isKm = value>=1000
+        val suffix = if (isKm) "Km" else "M"
         val newValue =  if(isKm)value/1000F else value
         view.text = String.format(view.context.getString(R.string.distance_s),"$newValue$suffix")
     }
